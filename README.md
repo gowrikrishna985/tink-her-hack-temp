@@ -6,50 +6,51 @@
 
 ## Basic Details
 
-### Team Name: [Name]
+### Team Name: Slaybyte
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: Aleesha Sujith Abraham - Muthoot Institute of Technology and Science
+- Member 2: Gowri Krishna - Muthoot Institute of Technology and Science
 
 ### Hosted Project Link
 [mention your project hosted link here]
 
 ### Project Description
-[2-3 lines about what your project does]
+Impact Focused
+  Women creators face thousands of sexist comments daily, with no fast way to identify, document, or report them. Detoxify uses machine learning to instantly scan YouTube comment sections, flag harmful content, and package evidence for reporting — turning a painful manual process into a 10 second task.
 
 ### The Problem statement
-[What problem are you solving?]
+  Women creators face thousands of sexist comments daily, with no fast way to identify, document, or report them. Detoxify uses machine learning to instantly scan YouTube comment sections, flag harmful content, and package evidence for reporting — turning a painful manual process into a 10 second task.
 
 ### The Solution
-[How are you solving it?]
-
----
+Detoxify solves this by combining a machine learning model specifically trained on sexist and gendered harassment data with the YouTube Data API. Any creator can paste a video link and instantly receive a color-coded breakdown of their entire comment section — flagged by severity, sorted by danger level, and packaged into a downloadable evidence report ready for platform reporting or legal documentation. What previously took hours of traumatic manual reading now takes seconds.
 
 ## Technical Details
 
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
-- Frameworks used: [e.g., React, Django, Spring Boot]
-- Libraries used: [e.g., axios, pandas, JUnit]
-- Tools used: [e.g., VS Code, Git, Docker]
+- Languages used: Python, JavaScript, HTML5, CSS3 
+- Frameworks used: Flask 3.1.0 ,Flask-CORS 
+- Libraries used:google-api-python-client 2.163.0	,python-dotenv 1.1.0	,transformers >=4.40.0 (HuggingFace)	,torch >=2.0.0 (PyTorch)	,jsPDF 3.0.3	,jspdf-autotable 5.0.2
+- Tools used: VS Code ,Git / GitHub ,Google Cloud Console ,HuggingFace Hub
 
-**For Hardware:**
-- Main components: [List main components]
-- Specifications: [Technical specifications]
-- Tools required: [List tools needed]
 
----
 
 ## Features
 
 List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+1. YouTube Comment Extraction
+Fetches the first 100 comments from any YouTube video using the YouTube Data API v3. Users simply paste a video URL, and the system automatically extracts comment text, author names, timestamps, and like counts for analysis.
+
+2. Toxicity Detection using Logistic Regression
+A Logistic Regression model trained on a labeled dataset of offensive and non-offensive text classifies each comment. The model outputs a confidence score and assigns severity levels — High (>90%), Medium (>75%), and Low — making it lightweight, interpretable, and efficient compared to complex deep learning approaches.
+
+3. Interactive Analysis Dashboard
+A real-time dashboard displays key statistics: total comments analyzed, flagged vs. safe counts, toxicity percentage, and a severity breakdown. An animated toxicity bar gives an instant visual summary. Filter tabs (All / Safe / Flagged / High Severity) let users drill down into specific categories.
+
+4. PDF Evidence Report Generation
+Users can download a branded PDF report of flagged comments using jsPDF. The report includes video metadata, a summary of analysis results, and a detailed table of all offensive comments with their severity and confidence scores — useful for documentation and reporting harassment.
 
 ---
 
@@ -58,78 +59,57 @@ List the key features of your project:
 ### For Software:
 
 #### Installation
-```bash
-[Installation commands - e.g., npm install, pip install -r requirements.txt]
-```
+pip install -r requirements.txt
+
 
 #### Run
-```bash
-[Run commands - e.g., npm start, python app.py]
-```
+TRAIN THE MODEL
+cd backend
+python model_train.py
 
-### For Hardware:
-
-#### Components Required
-[List all components needed with specifications]
-
-#### Circuit Setup
-[Explain how to set up the circuit]
-
----
+RUN THE BACKENED
+cd backend
+python app.py
 
 ## Project Documentation
 
 ### For Software:
 
 #### Screenshots (Add at least 3)
+<img width="1919" height="902" alt="Screenshot 2026-02-21 085817" src="https://github.com/user-attachments/assets/4167e90a-caff-49c1-aba5-fbe49daf99db" />   Homepage
+This is the home page of how it looks.
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+<img width="1919" height="912" alt="image" src="https://github.com/user-attachments/assets/0b775705-598b-4414-bc91-7486609c72a0" />  Classification
+This is when the url is copied and then pasted over here in which shows the comments and how many of them are safe,flagged and all.
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+<img width="1918" height="599" alt="image" src="https://github.com/user-attachments/assets/12b6067d-e758-4496-adce-92e17cb41520" />  Flagged section
+This is the section where the flagged details are shown.
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img width="989" height="833" alt="image" src="https://github.com/user-attachments/assets/8b3e2e10-75c1-4c72-87bf-976f01dcfa4a" />   PDF
+This is how the pdf is shown.
 
 #### Diagrams
 
 **System Architecture:**
 
-![Architecture Diagram](docs/architecture.png)
-*Explain your system architecture - components, data flow, tech stack interaction*
+<img width="729" height="495" alt="Screenshot 2026-02-21 091226" src="https://github.com/user-attachments/assets/5d4b7c9a-da09-4dc7-b34a-90bf3db7538e" />
+1. Frontend Layer (Client-Side)
+Component	Role
+index.html	Page structure — input form, dashboard, filter tabs, comment cards, download button
+script.js	Core logic — sends API requests, renders results, handles filtering, triggers PDF generation
+style.css	Glassmorphism UI — frosted-glass cards, animated gradients, floating particles, pink/lavender palette
+jsPDF + AutoTable	Generates downloadable PDF reports entirely in the browser (no server needed)
+2. Backend Layer (Flask Server)
+Component	Role
+Flask REST API	Exposes two endpoints: POST /api/comments (main analysis) and GET /api/health (status check)
+YouTube Service	Extracts the video ID from the URL, calls YouTube Data API v3 to fetch 100 comments with metadata
+Logistic Regression Classifier	Trained on a labeled offensive language dataset. Classifies each comment as offensive or non-offensive with a confidence score
+Analysis Engine	Aggregates results — counts flagged/safe, calculates toxicity %, assigns severity (High >90%, Medium >75%, Low)
 
 **Application Workflow:**
+<img width="184" height="485" alt="image" src="https://github.com/user-attachments/assets/017e3f56-9e46-425d-a4a2-55d2ffbb4c3a" />
+This diagram shows how data flows through the system from frontend to backend and database.
 
-![Workflow](docs/workflow.png)
-*Add caption explaining your workflow*
-
----
-
-### For Hardware:
-
-#### Schematic & Circuit
-
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-#### Build Photos
-
-![Team](Add photo of your team here)
-
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
----
 
 ## Additional Documentation
 
@@ -137,226 +117,85 @@ List the key features of your project:
 
 #### API Documentation
 
-**Base URL:** `https://api.yourproject.com`
+**Base URL:** http://localhost:5000
 
 ##### Endpoints
 
 **GET /api/endpoint**
-- **Description:** [What it does]
-- **Parameters:**
-  - `param1` (string): [Description]
-  - `param2` (integer): [Description]
+- Description:Health check endpoint to verify the Flask server and ML model are running correctly.
+- **Parameters:None
 - **Response:**
-```json
-{
-  "status": "success",
-  "data": {}
+- {
+  "status": "healthy",
+  "model": "loaded",
+  "service": "Detoxify API"
 }
-```
+  
+{
+  "status": "unhealthy",
+  "error": "Model not loaded"
+}
+
 
 **POST /api/endpoint**
-- **Description:** [What it does]
-- **Request Body:**
-```json
+- **Description:Accepts a YouTube video URL, fetches the first 100 comments using the YouTube Data API v3, classifies each comment as offensive or non-offensive using Logistic Regression, and returns the results with analysis statistics
+- Request Body:
 {
-  "field1": "value1",
-  "field2": "value2"
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 }
-```
 - **Response:**
-```json
 {
-  "status": "success",
-  "message": "Operation completed"
-}
-```
-
-[Add more endpoints as needed...]
-
----
-
-### For Mobile Apps:
-
-#### App Flow Diagram
-
-![App Flow](docs/app-flow.png)
-*Explain the user flow through your application*
-
-#### Installation Guide
-
-**For Android (APK):**
-1. Download the APK from [Release Link]
-2. Enable "Install from Unknown Sources" in your device settings:
-   - Go to Settings > Security
-   - Enable "Unknown Sources"
-3. Open the downloaded APK file
-4. Follow the installation prompts
-5. Open the app and enjoy!
-
-**For iOS (IPA) - TestFlight:**
-1. Download TestFlight from the App Store
-2. Open this TestFlight link: [Your TestFlight Link]
-3. Click "Install" or "Accept"
-4. Wait for the app to install
-5. Open the app from your home screen
-
-**Building from Source:**
-```bash
-# For Android
-flutter build apk
-# or
-./gradlew assembleDebug
-
-# For iOS
-flutter build ios
-# or
-xcodebuild -workspace App.xcworkspace -scheme App -configuration Debug
-```
-
----
-
-### For Hardware Projects:
-
-#### Bill of Materials (BOM)
-
-| Component | Quantity | Specifications | Price | Link/Source |
-|-----------|----------|----------------|-------|-------------|
-| Arduino Uno | 1 | ATmega328P, 16MHz | ₹450 | [Link] |
-| LED | 5 | Red, 5mm, 20mA | ₹5 each | [Link] |
-| Resistor | 5 | 220Ω, 1/4W | ₹1 each | [Link] |
-| Breadboard | 1 | 830 points | ₹100 | [Link] |
-| Jumper Wires | 20 | Male-to-Male | ₹50 | [Link] |
-| [Add more...] | | | | |
-
-**Total Estimated Cost:** ₹[Amount]
-
-#### Assembly Instructions
-
-**Step 1: Prepare Components**
-1. Gather all components listed in the BOM
-2. Check component specifications
-3. Prepare your workspace
-![Step 1](images/assembly-step1.jpg)
-*Caption: All components laid out*
-
-**Step 2: Build the Power Supply**
-1. Connect the power rails on the breadboard
-2. Connect Arduino 5V to breadboard positive rail
-3. Connect Arduino GND to breadboard negative rail
-![Step 2](images/assembly-step2.jpg)
-*Caption: Power connections completed*
-
-**Step 3: Add Components**
-1. Place LEDs on breadboard
-2. Connect resistors in series with LEDs
-3. Connect LED cathodes to GND
-4. Connect LED anodes to Arduino digital pins (2-6)
-![Step 3](images/assembly-step3.jpg)
-*Caption: LED circuit assembled*
-
-**Step 4: [Continue for all steps...]**
-
-**Final Assembly:**
-![Final Build](images/final-build.jpg)
-*Caption: Completed project ready for testing*
-
----
-
-### For Scripts/CLI Tools:
-
-#### Command Reference
-
-**Basic Usage:**
-```bash
-python script.py [options] [arguments]
-```
-
-**Available Commands:**
-- `command1 [args]` - Description of what command1 does
-- `command2 [args]` - Description of what command2 does
-- `command3 [args]` - Description of what command3 does
-
-**Options:**
-- `-h, --help` - Show help message and exit
-- `-v, --verbose` - Enable verbose output
-- `-o, --output FILE` - Specify output file path
-- `-c, --config FILE` - Specify configuration file
-- `--version` - Show version information
-
-**Examples:**
-
-```bash
-# Example 1: Basic usage
-python script.py input.txt
-
-# Example 2: With verbose output
-python script.py -v input.txt
-
-# Example 3: Specify output file
-python script.py -o output.txt input.txt
-
-# Example 4: Using configuration
-python script.py -c config.json --verbose input.txt
-```
-
-#### Demo Output
-
-**Example 1: Basic Processing**
-
-**Input:**
-```
-This is a sample input file
-with multiple lines of text
-for demonstration purposes
-```
-
-**Command:**
-```bash
-python script.py sample.txt
-```
-
-**Output:**
-```
-Processing: sample.txt
-Lines processed: 3
-Characters counted: 86
-Status: Success
-Output saved to: output.txt
-```
-
-**Example 2: Advanced Usage**
-
-**Input:**
-```json
-{
-  "name": "test",
-  "value": 123
-}
-```
-
-**Command:**
-```bash
-python script.py -v --format json data.json
-```
-
-**Output:**
-```
-[VERBOSE] Loading configuration...
-[VERBOSE] Parsing JSON input...
-[VERBOSE] Processing data...
-{
-  "status": "success",
-  "processed": true,
-  "result": {
-    "name": "test",
-    "value": 123,
-    "timestamp": "2024-02-07T10:30:00"
+  "success": true,
+  "videoInfo": {
+    "title": "Video Title",
+    "channelTitle": "Channel Name",
+    "publishedAt": "2024-01-15T10:30:00Z",
+    "viewCount": "1500000",
+    "likeCount": "45000",
+    "commentCount": "3200",
+    "thumbnail": "https://i.ytimg.com/vi/VIDEO_ID/hqdefault.jpg"
+  },
+  "comments": [
+    {
+      "author": "Username",
+      "authorProfileImage": "https://yt3.ggpht.com/...",
+      "text": "This is a comment",
+      "likeCount": 12,
+      "publishedAt": "2024-02-01T08:00:00Z",
+      "isFlagged": false,
+      "confidence": 0.95,
+      "severity": "none"
+    },
+    {
+      "author": "ToxicUser",
+      "authorProfileImage": "https://yt3.ggpht.com/...",
+      "text": "Offensive comment text here",
+      "likeCount": 3,
+      "publishedAt": "2024-02-02T14:30:00Z",
+      "isFlagged": true,
+      "confidence": 0.92,
+      "severity": "high"
+    }
+  ],
+  "analysis": {
+    "totalComments": 100,
+    "flaggedCount": 15,
+    "safeCount": 85,
+    "toxicityPercentage": 15.0,
+    "highSeverity": 5,
+    "mediumSeverity": 6,
+    "lowSeverity": 4
   }
 }
-[VERBOSE] Operation completed in 0.23s
-```
 
----
+
+
+
+
+
+
+
+
 
 ## Project Demo
 
@@ -400,20 +239,13 @@ If you used AI tools during development, document them here for transparency:
 
 ## Team Contributions
 
-- [Name 1]: [Specific contributions - e.g., Frontend development, API integration, etc.]
-- [Name 2]: [Specific contributions - e.g., Backend development, Database design, etc.]
-- [Name 3]: [Specific contributions - e.g., UI/UX design, Testing, Documentation, etc.]
+- Aleesha: ML,documentation
+- Gowri: Frontend and Backend
+
 
 ---
 
-## License
 
-This project is licensed under the [LICENSE_NAME] License - see the [LICENSE](LICENSE) file for details.
-
-**Common License Options:**
-- MIT License (Permissive, widely used)
-- Apache 2.0 (Permissive with patent grant)
-- GPL v3 (Copyleft, requires derivative works to be open source)
 
 ---
 
